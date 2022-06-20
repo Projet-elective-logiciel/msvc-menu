@@ -3,9 +3,9 @@ import Menu from "./menus.interface";
 
 const menuSchema = new mongoose.Schema({
     name: String,
-    articles: Array,
-    idRestaurant: String,
     description: String,
+    articles: Array,
+    price: Number,
 });
 
 const menuModel = mongoose.model<Menu & mongoose.Document>(

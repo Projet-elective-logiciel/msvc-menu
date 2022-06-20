@@ -2,9 +2,11 @@
 
 interface Menu {
     name: string,
-    articles: [string],
-    idRestaurant: string,
     description: string,
+    articles: [],
+    price:number
 }
 
 export default Menu;
+
+

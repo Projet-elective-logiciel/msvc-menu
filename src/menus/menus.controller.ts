@@ -18,14 +18,14 @@ class MenusController {
     }
 
     private getMenu(req: express.Request, res: express.Response) {
-        const idRestaurant = req.body.idRestaurant;
-        if (!idRestaurant) {
+        const name = req.body.name;
+        if (!name) {
             menuModel.find().then((menus) => {
                 res.status(200).json(menus);
             });
         }
         else {
-            menuModel.find({idRestaurant: idRestaurant}).then((menus) => {
+            menuModel.find({name: name }).then((menus) => {
                 res.status(200).json(menus);
             });
         }
@@ -33,14 +33,14 @@ class MenusController {
 
     private createMenu(req: express.Request, res: express.Response) {
         const menuData: Menus = req.body;
-        const idRestaurant = menuData.idRestaurant;
+        const name = menuData.name;
 
         menuModel
-            .findOne({ idRestaurant: idRestaurant})
+            .findOne({ name: name })
             .then((user) => {
                 if (user) {
-                    console.log(`Menu with email ${idRestaurant} already exists`);
-                    res.status(400).send(`Menu with email ${idRestaurant} already exists`);
+                    console.log(`Menu with this name : ${name} already exists`);
+                    res.status(400).send(`Menu with this name : ${name} already exists`);
                 } else {
                     console.log(menuData);
                     const createdMenu = new menuModel(menuData);
@@ -50,14 +50,12 @@ class MenusController {
         }})
     }
 
-
     private updateMenu(req: express.Request, res: express.Response) {
         const menuData: Menus = req.body;
-        const idRestaurant = menuData.idRestaurant;
         const name = menuData.name;
 
         menuModel
-            .findOneAndUpdate({ idRestaurant: idRestaurant, name: name}, menuData)
+            .findOneAndUpdate({ name: name}, menuData)
             .then((user) => {
                 console.log(`Updated menu restaurant: ${user.name}`);
                 res.status(200).send(`Updated menu restaurant: ${user.name}`);
@@ -68,10 +66,9 @@ class MenusController {
     }
 
     private deleteMenu(req: express.Request, res: express.Response) {
-        const idRestaurant = req.body.idRestaurant;
-        
+        const name = req.body.name;
         menuModel
-            .findOneAndDelete({ idRestaurant: idRestaurant})
+            .findOneAndDelete({ name: name})
             .then((user) => {
                 console.log(`Deleted menu restaurant: ${user.name}`);
                 res.status(200).send(`Deleted menu restaurant: ${user.name}`);
@@ -80,6 +77,7 @@ class MenusController {
                 res.status(400).send(err);
             })
     }
+
 }
 
 export default MenusController;

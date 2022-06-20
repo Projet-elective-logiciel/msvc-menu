@@ -13,7 +13,7 @@ async function main() {
 
 main().catch((err) => console.log(err));
 main().then(() => {
-    console.log(`Connection successful to ${MONGO_PATH}`);
+    console.log(`Connection successful to db`);
 });
 
 const app = new App([new MenusController()], Number(process.env.PORT));

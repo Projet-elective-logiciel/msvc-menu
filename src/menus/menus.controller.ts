@@ -52,11 +52,11 @@ class MenusController {
 
     private updateMenu(req: express.Request, res: express.Response) {
         const menuData: Menus = req.body;
-        const idRestaurant = req.body._id;
+        const _id = req.body._id;
         const name = menuData.name;
 
         menuModel
-            .findOneAndUpdate({ _id: idRestaurant, name: name}, menuData)
+            .findOneAndUpdate({ _id: _id}, {$set:req.body}, { new: true })
             .then((user) => {
                 console.log(`Updated menu restaurant: ${user.name}`);
                 res.status(200).send(`Updated menu restaurant: ${user.name}`);

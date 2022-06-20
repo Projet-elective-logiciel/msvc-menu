@@ -39,8 +39,8 @@ class MenusController {
             .findOne({ _id: idRestaurant})
             .then((user) => {
                 if (user) {
-                    console.log(`Menu with email ${idRestaurant} already exists`);
-                    res.status(400).send(`Menu with email ${idRestaurant} already exists`);
+                    console.log(`Menu with this name : ${name} already exists`);
+                    res.status(400).send(`Menu with this name : ${name} already exists`);
                 } else {
                     console.log(menuData);
                     const createdMenu = new menuModel(menuData);
@@ -49,7 +49,6 @@ class MenusController {
                     });
         }})
     }
-
 
     private updateMenu(req: express.Request, res: express.Response) {
         const menuData: Menus = req.body;
@@ -80,6 +79,7 @@ class MenusController {
                 res.status(400).send(err);
             })
     }
+
 }
 
 export default MenusController;

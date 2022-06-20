@@ -4,6 +4,9 @@ interface Menu {
     name: string,
     articles: [string],
     description: string,
+    price:number
 }
 
 export default Menu;
+
+

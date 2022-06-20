@@ -3,7 +3,6 @@
 interface Menu {
     name: string,
     articles: [string],
-    idRestaurant: string,
     description: string,
 }
 

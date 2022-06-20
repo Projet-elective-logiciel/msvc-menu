@@ -18,14 +18,14 @@ class MenusController {
     }
 
     private getMenu(req: express.Request, res: express.Response) {
-        const idRestaurant = req.body.idRestaurant;
+        const idRestaurant = req.body._id;
         if (!idRestaurant) {
             menuModel.find().then((menus) => {
                 res.status(200).json(menus);
             });
         }
         else {
-            menuModel.find({idRestaurant: idRestaurant}).then((menus) => {
+            menuModel.find({_id: idRestaurant}).then((menus) => {
                 res.status(200).json(menus);
             });
         }
@@ -33,10 +33,10 @@ class MenusController {
 
     private createMenu(req: express.Request, res: express.Response) {
         const menuData: Menus = req.body;
-        const idRestaurant = menuData.idRestaurant;
+        const idRestaurant = req.body._id;
 
         menuModel
-            .findOne({ idRestaurant: idRestaurant})
+            .findOne({ _id: idRestaurant})
             .then((user) => {
                 if (user) {
                     console.log(`Menu with email ${idRestaurant} already exists`);
@@ -53,11 +53,11 @@ class MenusController {
 
     private updateMenu(req: express.Request, res: express.Response) {
         const menuData: Menus = req.body;
-        const idRestaurant = menuData.idRestaurant;
+        const idRestaurant = req.body._id;
         const name = menuData.name;
 
         menuModel
-            .findOneAndUpdate({ idRestaurant: idRestaurant, name: name}, menuData)
+            .findOneAndUpdate({ _id: idRestaurant, name: name}, menuData)
             .then((user) => {
                 console.log(`Updated menu restaurant: ${user.name}`);
                 res.status(200).send(`Updated menu restaurant: ${user.name}`);
@@ -68,10 +68,10 @@ class MenusController {
     }
 
     private deleteMenu(req: express.Request, res: express.Response) {
-        const idRestaurant = req.body.idRestaurant;
+        const idRestaurant = req.body._id;
         
         menuModel
-            .findOneAndDelete({ idRestaurant: idRestaurant})
+            .findOneAndDelete({ _id: idRestaurant})
             .then((user) => {
                 console.log(`Deleted menu restaurant: ${user.name}`);
                 res.status(200).send(`Deleted menu restaurant: ${user.name}`);

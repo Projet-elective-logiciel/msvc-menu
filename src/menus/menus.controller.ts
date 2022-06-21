@@ -12,10 +12,10 @@ class MenusController {
 
     public intializeRoutes() {
         this.router.get(this.path, this.getMenus);
-        this.router.get(`${this.path}/:id`, this.getMenu);
+        this.router.get(`${this.path}/:_id`, this.getMenu);
         this.router.post(this.path, this.createMenu);
-        this.router.put(`${this.path}/:id`, this.updateMenu);
-        this.router.delete(`${this.path}/:id`, this.deleteMenu);
+        this.router.put(`${this.path}/:_id`, this.updateMenu);
+        this.router.delete(`${this.path}/:_id`, this.deleteMenu);
     }
 
     private getMenus(req: express.Request, res: express.Response) {
@@ -47,10 +47,10 @@ class MenusController {
     }
 
     private updateMenu(req: express.Request, res: express.Response) {
-        const _id = req.params._id;
+        const id = req.params._id;
 
         menuModel
-            .findOneAndUpdate({ _id: _id }, { $set: req.body }, { new: true })
+            .findOneAndUpdate({ _id: id }, { $set: req.body }, { new: true })
             .then((user) => {
                 console.log(`Updated menu restaurant: ${user.name}`);
                 res.status(200).send(`Updated menu restaurant: ${user.name}`);

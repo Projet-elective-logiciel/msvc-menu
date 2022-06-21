@@ -2,7 +2,7 @@
 
 interface Menu {
     name: string,
-    articles: [string],
+    articles: [],
     description: string,
     price:number
 }

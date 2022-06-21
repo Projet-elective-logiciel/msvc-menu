@@ -11,21 +11,27 @@ class MenusController {
     }
 
     public intializeRoutes() {
-        this.router.get(this.path, this.getMenu);
+        this.router.get(this.path, this.getMenus);
+        this.router.get(`${this.path}/:id`, this.getMenu);
         this.router.post(this.path, this.createMenu);
-        this.router.put(this.path, this.updateMenu);
-        this.router.delete(this.path, this.deleteMenu);
+        this.router.put(`${this.path}/:id`, this.updateMenu);
+        this.router.delete(`${this.path}/:id`, this.deleteMenu);
+    }
+
+    private getMenus(req: express.Request, res: express.Response) {
+        menuModel.find().then((menus) => {
+            res.status(200).json(menus);
+        });
     }
 
     private getMenu(req: express.Request, res: express.Response) {
-        const idRestaurant = req.body._id;
+        const idRestaurant = req.params._id;
         if (!idRestaurant) {
             menuModel.find().then((menus) => {
                 res.status(200).json(menus);
             });
-        }
-        else {
-            menuModel.find({_id: idRestaurant}).then((menus) => {
+        } else {
+            menuModel.find({ _id: idRestaurant }).then((menus) => {
                 res.status(200).json(menus);
             });
         }
@@ -33,53 +39,42 @@ class MenusController {
 
     private createMenu(req: express.Request, res: express.Response) {
         const menuData: Menus = req.body;
-        const idRestaurant = req.body._id;
 
-        menuModel
-            .findOne({ _id: idRestaurant})
-            .then((user) => {
-                if (user) {
-                    console.log(`Menu with this name : ${name} already exists`);
-                    res.status(400).send(`Menu with this name : ${name} already exists`);
-                } else {
-                    console.log(menuData);
-                    const createdMenu = new menuModel(menuData);
-                    createdMenu.save().then((savedRestaurant) => {
-                        res.send(savedRestaurant);
-                    });
-        }})
+        const createdMenu = new menuModel(menuData);
+        createdMenu.save().then((savedRestaurant) => {
+            res.send(savedRestaurant);
+        });
     }
 
     private updateMenu(req: express.Request, res: express.Response) {
-        const menuData: Menus = req.body;
-        const _id = req.body._id;
-        const name = menuData.name;
+        const _id = req.params._id;
 
         menuModel
-            .findOneAndUpdate({ _id: _id}, {$set:req.body}, { new: true })
+            .findOneAndUpdate({ _id: _id }, { $set: req.body }, { new: true })
             .then((user) => {
                 console.log(`Updated menu restaurant: ${user.name}`);
                 res.status(200).send(`Updated menu restaurant: ${user.name}`);
-            }).catch((err) => {
+            })
+            .catch((err) => {
                 console.log(`Update failed ${err}`);
                 res.status(400).send(`Update failed ${err}`);
-            })
+            });
     }
 
     private deleteMenu(req: express.Request, res: express.Response) {
-        const idRestaurant = req.body._id;
-        
+        const idRestaurant = req.params._id;
+
         menuModel
-            .findOneAndDelete({ _id: idRestaurant})
+            .findOneAndDelete({ _id: idRestaurant })
             .then((user) => {
                 console.log(`Deleted menu restaurant: ${user.name}`);
                 res.status(200).send(`Deleted menu restaurant: ${user.name}`);
-            }).catch((err) => {
+            })
+            .catch((err) => {
                 console.log(err);
                 res.status(400).send(err);
-            })
+            });
     }
-
 }
 
 export default MenusController;

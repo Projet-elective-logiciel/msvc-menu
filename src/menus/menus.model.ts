@@ -4,7 +4,7 @@ import Menu from "./menus.interface";
 const menuSchema = new mongoose.Schema({
     name: String,
     description: String,
-    articles: Array,
+    articles: [],
     price: Number,
 });
 

@@ -4,7 +4,8 @@ interface Menu {
     name: string,
     articles: [],
     description: string,
-    price:number
+    price:number,
+	image: string
 }
 
 export default Menu;

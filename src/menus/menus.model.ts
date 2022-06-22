@@ -6,6 +6,7 @@ const menuSchema = new mongoose.Schema({
     description: String,
     articles: [],
     price: Number,
+	image: String
 });
 
 const menuModel = mongoose.model<Menu & mongoose.Document>(

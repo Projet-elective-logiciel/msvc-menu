@@ -15,6 +15,8 @@ class App {
     }
 
     private initializeMiddlewares() {
+        this.app.use(express.json({limit: '25mb'}));
+        this.app.use(express.urlencoded({limit: '25mb'}));
         this.app.use(bodyParser.json());
     }
 

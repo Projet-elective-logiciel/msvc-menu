@@ -21,6 +21,8 @@ class MenusController {
     private getMenus(req: express.Request, res: express.Response) {
         menuModel.find().then((menus) => {
             res.status(200).json(menus);
+        }).catch((err) => {
+            res.status(500).send(err);
         });
     }
 
@@ -29,10 +31,14 @@ class MenusController {
         if (!idRestaurant) {
             menuModel.find().then((menus) => {
                 res.status(200).json(menus);
+            }).catch((err) => {
+                res.status(500).send(err);
             });
         } else {
             menuModel.find({ _id: idRestaurant }).then((menus) => {
                 res.status(200).json(menus);
+            }).catch((err) => {
+                res.status(500).send(err);
             });
         }
     }
@@ -43,6 +49,8 @@ class MenusController {
         const createdMenu = new menuModel(menuData);
         createdMenu.save().then((savedRestaurant) => {
             res.send(savedRestaurant);
+        }).catch((err) => {
+            res.status(500).send(err);
         });
     }
 
